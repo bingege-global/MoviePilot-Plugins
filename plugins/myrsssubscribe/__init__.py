@@ -22,9 +22,9 @@ from app.schemas.types import SystemConfigKey, MediaType
 lock = Lock()
 
 
-class RssSubscribe(_PluginBase):
+class MyRssSubscribe(_PluginBase):
     # 插件名称
-    plugin_name = "自定义订阅"
+    plugin_name = "增强自定义订阅"
     # 插件描述
     plugin_desc = "定时刷新RSS报文，识别内容后添加订阅或直接下载。"
     # 插件图标
@@ -32,9 +32,9 @@ class RssSubscribe(_PluginBase):
     # 插件版本
     plugin_version = "1.0"
     # 插件作者
-    plugin_author = "jxxghp"
+    plugin_author = "ywb"
     # 作者主页
-    author_url = "https://github.com/jxxghp"
+    author_url = "https://github.com/bingege"
     # 插件配置项ID前缀
     plugin_config_prefix = "rsssubscribe_"
     # 加载顺序
@@ -563,15 +563,6 @@ class RssSubscribe(_PluginBase):
                     # 检查是否处理过
                     if not title or title in [h.get("key") for h in history]:
                         continue
-                    # 检查规则
-                    if self._include and not re.search(r"%s" % self._include,
-                                                       f"{title} {description}", re.IGNORECASE):
-                        logger.info(f"{title} - {description} 不符合包含规则")
-                        continue
-                    if self._exclude and re.search(r"%s" % self._exclude,
-                                                   f"{title} {description}", re.IGNORECASE):
-                        logger.info(f"{title} - {description} 不符合排除规则")
-                        continue
                     # 识别媒体信息
                     meta = MetaInfo(title=title, subtitle=description)
                     if not meta.name:
@@ -580,6 +571,16 @@ class RssSubscribe(_PluginBase):
                     mediainfo: MediaInfo = self.chain.recognize_media(meta=meta)
                     if not mediainfo:
                         logger.warn(f'未识别到媒体信息，标题：{title}')
+                        continue
+                    # 这一步可以获取到资料库的元信息
+                    # 检查规则
+                    if self._include and not re.search(r"%s" % self._include,
+                                                       f"year={mediainfo.year} vote={mediainfo.vote_average} {title} {description}", re.IGNORECASE):
+                        logger.info(f"{title} - {description} 不符合包含规则")
+                        continue
+                    if self._exclude and re.search(r"%s" % self._exclude,
+                                                   f"{title} {description}", re.IGNORECASE):
+                        logger.info(f"{title} - {description} 不符合排除规则")
                         continue
                     # 种子
                     torrentinfo = TorrentInfo(
