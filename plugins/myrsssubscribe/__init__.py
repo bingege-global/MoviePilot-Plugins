@@ -26,11 +26,11 @@ class MyRssSubscribe(_PluginBase):
     # 插件名称
     plugin_name = "增强自定义订阅"
     # 插件描述
-    plugin_desc = "定时刷新RSS报文，识别内容后添加订阅或直接下载。"
+    plugin_desc = "- 定时刷新RSS报文，识别内容后添加订阅或直接下载。"
     # 插件图标
     plugin_icon = "rss.png"
     # 插件版本
-    plugin_version = "1.0"
+    plugin_version = "1.1"
     # 插件作者
     plugin_author = "ywb"
     # 作者主页
