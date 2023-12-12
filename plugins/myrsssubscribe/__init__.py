@@ -30,7 +30,7 @@ class MyRssSubscribe(_PluginBase):
     # 插件图标
     plugin_icon = "rss.png"
     # 插件版本
-    plugin_version = "1.1"
+    plugin_version = "1.2"
     # 插件作者
     plugin_author = "ywb"
     # 作者主页
@@ -574,9 +574,10 @@ class MyRssSubscribe(_PluginBase):
                         continue
                     # 这一步可以获取到资料库的元信息
                     # 检查规则
+                    include_txt = f"year={mediainfo.year} vote={mediainfo.vote_average} {title} {description}"
                     if self._include and not re.search(r"%s" % self._include,
-                                                       f"year={mediainfo.year} vote={mediainfo.vote_average} {title} {description}", re.IGNORECASE):
-                        logger.info(f"{title} - {description} 不符合包含规则")
+                                                       include_txt, re.IGNORECASE):
+                        logger.info(f"{include_txt} 不符合包含规则")
                         continue
                     if self._exclude and re.search(r"%s" % self._exclude,
                                                    f"{title} {description}", re.IGNORECASE):
