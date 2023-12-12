@@ -574,7 +574,7 @@ class MyRssSubscribe(_PluginBase):
                         continue
                     # 这一步可以获取到资料库的元信息
                     # 检查规则
-                    include_txt = f"year={mediainfo.year} vote={mediainfo.vote_average} {title} {description}"
+                    include_txt = f"year={mediainfo.year} vote={mediainfo.vote_average} {title}"
                     if self._include and not re.search(r"%s" % self._include,
                                                        include_txt, re.IGNORECASE):
                         logger.info(f"{include_txt} 不符合包含规则")
